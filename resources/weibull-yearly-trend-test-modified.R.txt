@@ -1,0 +1,91 @@
+stations <- c("KATL",
+"KBOS",
+"KBWI",
+"KCLE",
+"KCLT",
+"KCVG",
+"KDCA",
+"KDEN",
+"KDFW",
+"KDTW",
+"KEUG",
+"KIAH",
+"KLAS",
+"KLAX",
+"KLGA",
+"KMCI",
+"KMCO",
+"KMSP",
+"KORD",
+"KPHL",
+"KPHX",
+"KPIT",
+"KSAC",
+"KSAN",
+"KSAT",
+"KSEA",
+"KSFO",
+"KSMX",
+"KSTL",
+"KTPA")
+
+#stations <- c("KATL")
+
+library("fitdistrplus")
+library(modifiedmk)
+ 
+
+for(station in stations) {
+
+	inputFilenameBase = paste("training", station, "2004-2012in", sep="")
+        inputFilename = paste(inputFilenameBase, ".csv", sep="")
+        outputFilename = paste(inputFilenameBase, "TrendStatisticsModifiedMK.txt", sep="")
+
+	DF <- read.csv(inputFilename, header=TRUE)
+
+	iter <- 9+1 #for header
+	m <- matrix(NA, nrow=iter, ncol=7)
+	rowIndex = 1
+	m[rowIndex,] <- c("station", "year", "shape", "scale", "Kolmogorov-Smirnov statistic","Cramer-von Mises statistic", "Anderson-Darling statistic")
+	rowIndex=rowIndex+1
+
+	DF <- read.csv(inputFilename, header=TRUE)	 
+		 
+	for (year in 2004:2012){
+
+		print(year)
+		prex = DF[as.numeric(substr(DF$timestamp, 0, 4)) == year,]$wind_knots
+	        x = hist(prex, freq=FALSE, plot=FALSE, breaks=seq(-1,max(DF$wind_knots)),main=paste("Histogram of", inputFilename),xlab="windspeed (knots)")	
+		#If a zero exists, truncate data to avoid the following error:
+		## Error in checkparamlist(arg_startfix$start.arg, arg_startfix$fix.arg,  : 
+		##  'start' should not have NA or NaN values.
+		finalIndex = if(x$density[which.min(x$density)] == 0) which.min(x$density)-1 else length(x$density)
+		d = fitdist(x$density[1:finalIndex], "weibull",lower=0)
+		k = gofstat(d)
+		m[rowIndex,] <- c(station, year, d$estimate, k$ks, k$cvm, k$ad) 
+		rowIndex=rowIndex+1	
+	
+		
+	}
+
+	print(station)
+
+	# print to file
+	options(width = 200)
+	sink(outputFilename)
+	print(station)
+	print(m)
+
+	shape = m[,3]
+	print("ModifiedMKshape")
+	# The 2 index in the shape array omits heading row
+	bbsmk(as.numeric(shape[2:length(shape)]), ci=0.95, nsim=2000, eta=1, bl.len=NULL)
+	
+	print("ModifiedMKscale")
+	scale = m[,4]
+	# The 2 index in the scale array omits heading row
+	bbsmk(as.numeric(scale[2:length(shape)]), ci=0.95, nsim=2000, eta=1, bl.len=NULL)
+
+	sink()
+
+}
