@@ -1,0 +1,31 @@
+Daytime,Monday-Thursday Daytime Start,Monday-Thursday Daytime End,Friday Daytime Start,Friday Daytime End,Saturday Daytime Start,Saturday Daytime End,Sunday Daytime Start,Sunday Daytime End,Federal Holiday Daytime Start,Federal Holiday Daytime End
+KATL,7:00,19:00,7:00,19:00,9:00,19:00,9:00,19:00,9:00,19:00
+KBOS,7:00,18:00,7:00,18:00,Never,Never,Never,Never,With day of week,With day of week
+KBWI,7:00,21:00,7:00,21:00,10:00,22:00,10:00,22:00,10:00,22:00
+KCLE,7:00,19:00,7:00,19:00,7:00,19:00,7:00,19:00,7:00,19:00
+KCLT,7:00,21:00,7:00,21:00,7:00,21:00,7:00,21:00,7:00,21:00
+KCVG,7:00,21:00,7:00,21:00,7:00,21:00,7:00,21:00,7:00,21:00
+KDCA,7:00,19:00,7:00,19:00,7:00,19:00,Never,Never,Never,Never
+KDEN,7:00,21:00,7:00,21:00,8:00,17:00,8:00,17:00,With day of week,With day of week
+KDFW,7:00,19:00,7:00,19:00,8:00,19:00,Never,Never,8:00,19:00
+KDTW,7:00,21:00,7:00,21:00,7:00,21:00,Never,Never,With day of week,With day of week
+KEUG,7:00,19:00,7:00,19:00,7:00,19:00,7:00,19:00,7:00,19:00
+KIAH,7:00,20:00,7:00,20:00,7:00,20:00,7:00,20:00,7:00,20:00
+KLAS,7:00,18:00,7:00,18:00,7:00,18:00,7:00,18:00,7:00,18:00
+KLAX,7:00,21:00,7:00,21:00,7:00,21:00,7:00,21:00,7:00,21:00
+KLGA,7:00,18:00,7:00,18:00,10:00,16:00,10:00,16:00,With day of week,With day of week
+KMCI,7:00,22:00,7:00,22:00,7:00,22:00,7:00,22:00,7:00,22:00
+KMCO,7:00,21:00,7:00,21:00,7:00,21:00,Never,Never,Never,Never
+KMSP,7:00,18:00,7:00,18:00,Never,Never,Never,Never,Never,Never
+KORD,8:00,20:00,8:00,20:00,8:00,20:00,8:00,20:00,8:00,20:00
+KPHL,7:00,20:00,7:00,20:00,8:00,20:00,8:00,20:00,8:00,20:00
+KPHX,7:00,19:00,7:00,19:00,Never,Never,Never,Never,Never,Never
+KPIT,7:00,22:00,7:00,22:00,7:00,22:00,7:00,22:00,7:00,22:00
+KSAC,7:00,22:00,7:00,22:00,7:00,22:00,7:00,22:00,7:00,22:00
+KSAN,7:00,19:00,7:00,19:00,7:00,19:00,Never,Never,Never,Never
+KSAT,6:00,22:00,6:00,23:00,Never,Never,Never,Never,With day of week,With day of week
+KSEA,7:00,22:00,7:00,22:00,9:00,22:00,9:00,22:00,9:00,22:00
+KSFO,7:00,20:00,7:00,20:00,7:00,20:00,7:00,20:00,7:00,20:00
+KSMX,7:00,18:00,7:00,18:00,8:00,17:00,8:00,17:00,With day of week,With day of week
+KSTL,6:00,sunset,6:00,sunset,6:00,sunset,Never,Never,With day of week,With day of week
+KTPA,7:00,18:00,7:00,18:00,8:00,18:00,10:00,18:00,With day of week,With day of week
