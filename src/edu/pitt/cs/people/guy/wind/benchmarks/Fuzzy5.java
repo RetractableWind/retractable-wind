@@ -248,7 +248,7 @@ public class Fuzzy5 {
 
 		double windspeed_knots_average = ra.updateRunningAverage(sample.windspeed_knots, running_average_window_size);
 
-		double windspeed_knots_average_future = ra.updateRunningAverage(sample.windspeed_knots_predicted_one_day,
+		double windspeed_knots_average_future = raf.updateRunningAverage(sample.windspeed_knots_predicted_one_day,
 				running_average_window_size);
 		
 		boolean bFutureWindspeedUnavailable = (sample.windspeed_knots_predicted_one_day < 0);    
@@ -304,7 +304,7 @@ public class Fuzzy5 {
 		// Use visibility-time-remaining to control deployment threshold
 
 		double windspeed_knots_average = ra.updateRunningAverage(sample.windspeed_knots, running_average_window_size);
-		double windspeed_knots_average_future = ra.updateRunningAverage(sample.windspeed_knots_predicted_one_day,
+		double windspeed_knots_average_future = raf.updateRunningAverage(sample.windspeed_knots_predicted_one_day,
 				running_average_window_size);
 		
 		boolean bFutureWindspeedUnavailable = (sample.windspeed_knots_predicted_one_day < 0);    

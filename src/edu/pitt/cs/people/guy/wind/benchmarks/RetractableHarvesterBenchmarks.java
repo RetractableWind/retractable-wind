@@ -130,19 +130,80 @@ public class RetractableHarvesterBenchmarks {
 
 		//String[] parameter = args[0].split("\\s+");
 		//String station = parameter[0];
-		String station = args[0];
+		String station_argument = args[0];
 		
 		//String station = "KBOS";
-		System.out.println("Station: " + station);
+		System.out.println("Station_argument: " + station_argument);
 
 		float lambda = Float.parseFloat(args[1]);
 		System.out.println("lambda: " + lambda);
+
+		boolean bUseWeatherPrediction = Boolean.parseBoolean(args[2]);
+		System.out.println("bUseWeatherPrediction: " + bUseWeatherPrediction);
+
+		boolean bTransitionLimited = Boolean.parseBoolean(args[3]);
+		System.out.println("bTransitionLimited: " + bTransitionLimited);
+
+
+		char cAlgorithm = args[4].charAt(0);    
+		System.out.println("cAlgorithm: " + cAlgorithm);
+
+
+		// Build set of stations through which to iterate
+		final String DO_ALL_STATIONS_STRING = "ALL";
+		String stationArray[];
+		if (station_argument.equals(DO_ALL_STATIONS_STRING)) {
+		
+		    stationArray = new String[]{"KATL",
+						"KBOS",
+						"KBWI",
+						"KCLE",
+						"KCLT",
+						"KCVG",
+						"KDCA",
+						"KDEN",
+						"KDFW",
+						"KDTW",
+						"KEUG",
+						"KIAH",
+						"KLAS",
+						"KLAX",
+						"KLGA",
+						"KMCI",
+						"KMCO",
+						"KMSP",
+						"KORD",
+						"KPHL",
+						"KPHX",
+						"KPIT",
+						"KSAC",
+						"KSAN",
+						"KSAT",
+						"KSEA",
+						"KSFO",
+						"KSMX",
+						"KSTL",
+						"KTPA"};
+		} else {
+
+		    stationArray = new String[]{station_argument};
+
+		}
+
+
+		for (String station : stationArray){ 
+
+		    System.out.println("Station: " + station);
 
 		RetractableHarvesterBenchmarks rhs = new RetractableHarvesterBenchmarks();
 
 		Workload ws = new Workload(station, true);
 		System.out.println("iUsedAllItsAllocatedVisibilityMinutesPerMonth: " + ws.iUsedAllItsAllocatedVisibilityMinutesPerMonth);
+		System.out.println("Visibility Allocation Minutes:" + ws.iUsedAllItsAllocatedVisibilityMinutesPerMonth);
+
 		HarvesterModel hm = new HarvesterModel(ws.iDeploymentTimeMinimumMinutes, ws.iRetractionTimeMinimumMinutes);
+
+
 	
 		
 //		ControlAlgorithm ca = rhs.new ControlAlgorithm(station, hm, ws);
@@ -224,20 +285,6 @@ public class RetractableHarvesterBenchmarks {
 		
 // -----
 
-
-		// boolean bTransitionLimited = false; 
-		// Aging ag = new Aging(station, hm, ws, bTransitionLimited, lambda);
-		// System.out.println("Transition limited :" + bTransitionLimited);
-		
-		// boolean bUseWeatherPrediction = false;
-		// System.out.println("bUseWeatherPrediction: " + bUseWeatherPrediction);
-		
-		// ag.train(bUseWeatherPrediction);
-		// System.out.println("Beginning testing mode:");
-		// hm.listMonthlyStatistics.clear();
-		// ag.testing(bUseWeatherPrediction);
-
-		
 		// Test
 //		CheckContinuity cc  = new CheckContinuity(station,
 //				hm,
@@ -246,30 +293,64 @@ public class RetractableHarvesterBenchmarks {
 //				true);
 		 
 		
-//		System.out.println("Visibility Allocation Minutes:" + ws.iUsedAllItsAllocatedVisibilityMinutesPerMonth);
-//		boolean bTransitionLimited = false;
-//		Fuzzy3 f3 = new Fuzzy3(station, hm, ws, bTransitionLimited);
-//		System.out.println("Transition limited :" + bTransitionLimited);
-//		
-//		boolean bUseWeatherPrediction = true;
-//		System.out.println("bUseWeatherPrediction: " + bUseWeatherPrediction);
-//		
-//		f3.train(bUseWeatherPrediction);
-//   //		System.out.println("Beginning testing mode:");
-// //		f3.testing(bUseWeatherPrediction);	
+
+
+
+		switch(cAlgorithm) {
+		    case 'a':
+			System.out.println("Aging");
+
+		Aging ag = new Aging(station, hm, ws, bTransitionLimited, lambda);
+		System.out.println("Transition limited :" + bTransitionLimited);
 		
-//  		System.out.println("Visibility Allocation Minutes:" + ws.iUsedAllItsAllocatedVisibilityMinutesPerMonth);
-// 		boolean bTransitionLimited = false;
-// 		Fuzzy5 f5 = new Fuzzy5(station, hm, ws, bTransitionLimited, lambda);
-// 		System.out.println("Transition limited :" + bTransitionLimited);
+
+		System.out.println("bUseWeatherPrediction: " + bUseWeatherPrediction);
 		
-// 		boolean bUseWeatherPrediction = false; //
-// 		System.out.println("bUseWeatherPrediction: " + bUseWeatherPrediction);
+		ag.train(bUseWeatherPrediction);
+		System.out.println("Beginning testing mode:");
+		hm.listMonthlyStatistics.clear();
+		ag.testing(bUseWeatherPrediction);
+
+			break;
+
+		case 'f':
+
+		    System.out.println("Fuzzy");
+
+		    Fuzzy5 f5 = new Fuzzy5(station, hm, ws, bTransitionLimited, lambda);
+		    System.out.println("Transition limited :" + bTransitionLimited);
+		    
+		    System.out.println("bUseWeatherPrediction: " + bUseWeatherPrediction);
+		    
+		    f5.train(bUseWeatherPrediction);
+		    System.out.println("Beginning testing mode:");
+		    hm.listMonthlyStatistics.clear();
+		    f5.testing(bUseWeatherPrediction);
+		    		    
+		    break;
+
+		case 's':
+
+		    Static st = new Static(station, hm, ws, bTransitionLimited, lambda);
+		    System.out.println("Transition limited :" + bTransitionLimited);
 		
-// 		f5.train(bUseWeatherPrediction);
- 		// System.out.println("Beginning testing mode:");
-		// hm.listMonthlyStatistics.clear();
-		// f5.testing(bUseWeatherPrediction);
+		    System.out.println("bUseWeatherPrediction:" + bUseWeatherPrediction);
+		    st.train(bUseWeatherPrediction);
+		    System.out.println("Beginning testing mode:");
+		    hm.listMonthlyStatistics.clear();
+		    st.testing(bUseWeatherPrediction);
+
+		    break;
+
+		default:
+
+		    System.out.println("Algorithm not found corresponding to " +
+				       cAlgorithm);
+
+		    break;
+		    }
+
+		}
 		
 //		Windy wind = new Windy(station);
 //		System.out.println("Windy: & " + station + " & "  +
@@ -301,16 +382,6 @@ public class RetractableHarvesterBenchmarks {
 		
 		//InterpolationStatistics is = new InterpolationStatistics(station, ws);
 
-    		boolean bTransitionLimited = false;		
-		Static st = new Static(station, hm, ws, bTransitionLimited, lambda);
-		System.out.println("Transition limited :" + bTransitionLimited);
-		
-		boolean bUseWeatherPrediction = false;
-		System.out.println("bUseWeatherPrediction:" + bUseWeatherPrediction);
-		//		st.train(bUseWeatherPrediction);
-		//System.out.println("Beginning testing mode:");
-		//hm.listMonthlyStatistics.clear();
-		//st.testing(bUseWeatherPrediction);
 		
   		// st.testing(bUseWeatherPrediction,
 		// 	   7,
@@ -318,79 +389,79 @@ public class RetractableHarvesterBenchmarks {
 		// 		7,
 		// 		61);
 
-			int settings[] = {0, 0, 0, 0};
-	        switch(station) 
-	        { 
-	        case("KATL"): settings = new int[] {7,31,7,61};
-	        break;
-	        case("KBOS"): settings = new int[] {9,31,9,61};
-	        break;
-	        case("KBWI"): settings = new int[] {7,31,7,61};
-	        break;
-	        case("KCLE"): settings = new int[] {8,31,8,61};
-	        break;
-	        case("KCLT"): settings = new int[] {5,1,5,91};
-	        break;
-	        case("KCVG"): settings = new int[] {7,31,7,61};
-	        break;
-	        case("KDCA"): settings = new int[] {7,1,7,61};
-	        break;
-	        case("KDEN"): settings = new int[] {8,1,8,121};
-	        break;
-	        case("KDFW"): settings = new int[] {9,31,9,31};
-	        break;
-	        case("KDTW"): settings = new int[] {8,31,8,91};
-	        break;
-	        case("KEUG"): settings = new int[] {6,1,6,91};
-	        break;
-	        case("KIAH"): settings = new int[] {7,1,7,61};
-	        break;
-	        case("KLAS"): settings = new int[] {8,1,8,31};
-	        break;
-	        case("KLAX"): settings = new int[] {7,1,7,61};
-	        break;
-	        case("KLGA"): settings = new int[] {9,31,9,61};
-	        break;
-	        case("KMCI"): settings = new int[] {8,1,8,31};
-	        break;
-	        case("KMCO"): settings = new int[] {7,1,7,61};
-	        break;
-	        case("KMSP"): settings = new int[] {8,31,8,91};
-	        break;
-	        case("KORD"): settings = new int[] {8,31,8,91};
-	        break;
-	        case("KPHL"): settings = new int[] {8,31,8,61};
-	        break;
-	        case("KPHX"): settings = new int[] {6,31,6,121};
-	        break;
-	        case("KPIT"): settings = new int[] {7,1,7,61};
-	        break;
-	        case("KSAC"): settings = new int[] {6,1,6,91};
-	        break;
-	        case("KSAN"): settings = new int[] {5,1,5,61};
-	        break;
-	        case("KSAT"): settings = new int[] {7,1,7,121};
-	        break;
-	        case("KSEA"): settings = new int[] {6,1,6,121};
-	        break;
-	        case("KSFO"): settings = new int[] {10,1,10,61};
-	        break;
-	        case("KSMX"): settings = new int[] {8,1,8,61};
-	        break;
-	        case("KSTL"): settings = new int[] {7,1,7,91};
-	        break;
-	        case("KTPA"): settings = new int[] {6,1,6,91};
-	        break;
-	       default: 
-	                System.out.println("station not found"); 
-	                System.exit(0);
-	        } 	
+	       // 		int settings[] = {0, 0, 0, 0};
+	       //  switch(station) 
+	       //  { 
+	       //  case("KATL"): settings = new int[] {7,31,7,61};
+	       //  break;
+	       //  case("KBOS"): settings = new int[] {9,31,9,61};
+	       //  break;
+	       //  case("KBWI"): settings = new int[] {7,31,7,61};
+	       //  break;
+	       //  case("KCLE"): settings = new int[] {8,31,8,61};
+	       //  break;
+	       //  case("KCLT"): settings = new int[] {5,1,5,91};
+	       //  break;
+	       //  case("KCVG"): settings = new int[] {7,31,7,61};
+	       //  break;
+	       //  case("KDCA"): settings = new int[] {7,1,7,61};
+	       //  break;
+	       //  case("KDEN"): settings = new int[] {8,1,8,121};
+	       //  break;
+	       //  case("KDFW"): settings = new int[] {9,31,9,31};
+	       //  break;
+	       //  case("KDTW"): settings = new int[] {8,31,8,91};
+	       //  break;
+	       //  case("KEUG"): settings = new int[] {6,1,6,91};
+	       //  break;
+	       //  case("KIAH"): settings = new int[] {7,1,7,61};
+	       //  break;
+	       //  case("KLAS"): settings = new int[] {8,1,8,31};
+	       //  break;
+	       //  case("KLAX"): settings = new int[] {7,1,7,61};
+	       //  break;
+	       //  case("KLGA"): settings = new int[] {9,31,9,61};
+	       //  break;
+	       //  case("KMCI"): settings = new int[] {8,1,8,31};
+	       //  break;
+	       //  case("KMCO"): settings = new int[] {7,1,7,61};
+	       //  break;
+	       //  case("KMSP"): settings = new int[] {8,31,8,91};
+	       //  break;
+	       //  case("KORD"): settings = new int[] {8,31,8,91};
+	       //  break;
+	       //  case("KPHL"): settings = new int[] {8,31,8,61};
+	       //  break;
+	       //  case("KPHX"): settings = new int[] {6,31,6,121};
+	       //  break;
+	       //  case("KPIT"): settings = new int[] {7,1,7,61};
+	       //  break;
+	       //  case("KSAC"): settings = new int[] {6,1,6,91};
+	       //  break;
+	       //  case("KSAN"): settings = new int[] {5,1,5,61};
+	       //  break;
+	       //  case("KSAT"): settings = new int[] {7,1,7,121};
+	       //  break;
+	       //  case("KSEA"): settings = new int[] {6,1,6,121};
+	       //  break;
+	       //  case("KSFO"): settings = new int[] {10,1,10,61};
+	       //  break;
+	       //  case("KSMX"): settings = new int[] {8,1,8,61};
+	       //  break;
+	       //  case("KSTL"): settings = new int[] {7,1,7,91};
+	       //  break;
+	       //  case("KTPA"): settings = new int[] {6,1,6,91};
+	       //  break;
+	       // default: 
+	       //          System.out.println("station not found"); 
+	       //          System.exit(0);
+	       //  } 	
 		
-		st.testing(bUseWeatherPrediction,
-				settings[0],
-				settings[1],
-				settings[2],
-				settings[3]);
+	       // 	st.testing(bUseWeatherPrediction,
+	       // 			settings[0],
+	       // 			settings[1],
+	       // 			settings[2],
+	       // 			settings[3]);
 
 		
 

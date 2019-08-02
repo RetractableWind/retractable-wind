@@ -259,7 +259,7 @@ public class Static {
 		
 		final double MUCH_WINDIER = 1.25; 
 		double windspeed_knots_average_future =
-				ra.updateRunningAverage(sample.windspeed_knots_predicted_one_day, running_average_window_size); 
+				raf.updateRunningAverage(sample.windspeed_knots_predicted_one_day, running_average_window_size); 
 		
 		if (
 				(harvester.getMinutesVisibleMonthly() < 1) &&
@@ -363,7 +363,7 @@ public class Static {
 			final double MUCH_WINDIER = 1.25; 
 			final double FRACTION_VISIBLE_TIME_THRESHOLD_SOMEWHAT_EXHAUSTED = 0.64; 
 			double windspeed_knots_average_future =
-					ra.updateRunningAverage(sample.windspeed_knots_predicted_one_day, running_average_window_size); 
+					raf.updateRunningAverage(sample.windspeed_knots_predicted_one_day, running_average_window_size); 
 			
 			if (
 					(fractionVisbilePlusTimeToRetractMonthly > 
