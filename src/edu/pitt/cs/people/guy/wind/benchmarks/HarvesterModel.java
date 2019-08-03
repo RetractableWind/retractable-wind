@@ -34,6 +34,8 @@ class HarvesterModel {
 	private long minutesFullyStowedMonthly = 0;
 	private long minutesVisibleMonthly = 0;
 	private long minutesVisibleMonthlyPrevious = 0;
+	private int minutesFullyDeployedMonthly = 0;
+	private int minutesFullyDeployedMonthlyPrevious = 0;
 
 	private long minutesInSimulationSincePreviousReset = 0;
 
@@ -119,7 +121,7 @@ class HarvesterModel {
 			
 		} else if (fDeploymentTimeRemaining > TIME_TO_DEPLOY_MINUTES) {
 			
-			fDeploymentTimeRemaining = TIME_TO_DEPLOY_MINUTES; // fully deployed
+			fDeploymentTimeRemaining = TIME_TO_DEPLOY_MINUTES; // fully stowed
 			
 		}
 
@@ -234,8 +236,12 @@ class HarvesterModel {
 		if (sample.date.getMonthValue() != previousMonthValue) {
 
 			//System.out.println("minutesVisibleMonthly:" + minutesVisibleMonthly);
-			addToMonthlyStatisticsList(sample.date, minutesVisibleMonthly);
+			addToMonthlyStatisticsList(sample.date, 
+						   minutesVisibleMonthly,
+						   minutesFullyDeployedMonthly);
 			minutesVisibleMonthlyPrevious = minutesVisibleMonthly;
+			minutesFullyDeployedMonthlyPrevious = 
+			    minutesFullyDeployedMonthly;
 			resetMonthlyStatistics(ep);
 			
 		}
@@ -248,10 +254,14 @@ class HarvesterModel {
 	}
 	
 	
-	public void addToMonthlyStatisticsList(LocalDateTime date, long minutesVisibleMonthlyLocal) {
+	public void addToMonthlyStatisticsList(LocalDateTime date,
+					       long minutesVisibleMonthlyLocal,
+					       int minutesFullyDeployedMonthlyLocal) {
 
-		MonthlyStatistics ms = new MonthlyStatistics(date, minutesVisibleMonthlyLocal);
-		listMonthlyStatistics.add(ms);
+		MonthlyStatistics ms = new MonthlyStatistics(date,
+							     minutesVisibleMonthlyLocal,
+						      minutesFullyDeployedMonthlyLocal);
+	listMonthlyStatistics.add(ms);
 		
 	}
 
@@ -261,7 +271,7 @@ class HarvesterModel {
 		LocalDateTime datePrevious = LocalDateTime.of(msPrevious.year, msPrevious.month, 1, 0, 0, 0);
 		LocalDateTime monthAfterFinalMonth = datePrevious.plusMonths(2);
 		
-		MonthlyStatistics ms = new MonthlyStatistics(monthAfterFinalMonth, minutesVisibleMonthly);
+		MonthlyStatistics ms = new MonthlyStatistics(monthAfterFinalMonth, minutesVisibleMonthly, minutesFullyDeployedMonthly);
 		listMonthlyStatistics.add(ms);
 		
 	}
@@ -283,6 +293,12 @@ class HarvesterModel {
 			minutesVisibleMonthly++;
 						
 		}
+
+		// update fully deployed statistic
+		if (fDeploymentTimeRemaining == 0)
+		    {
+			minutesFullyDeployedMonthly++;
+		    }
 		
 		double windEnergyAvailableKilowattMinute = pc.windPowerKilowattsViaTable(windSpeedKnots, bInCutOutRange);
 		
@@ -375,10 +391,10 @@ class HarvesterModel {
 		return(minutesVisibleMonthly);
 		
 	}
-	
-	public long getMinutesVisibleMonthlyPrevious() {
+
+	public long getMinutesHarvesterIsBetweenStates() {
 		
-		return(minutesVisibleMonthlyPrevious);
+		return(minutesVisibleMonthly-minutesFullyDeployedMonthly);
 		
 	}
 	
@@ -435,6 +451,8 @@ class HarvesterModel {
 			//printMinutesVisibleMonthly();
 			
 			minutesVisibleMonthly = 0;
+
+			minutesFullyDeployedMonthly = 0;
 			
 			//System.out.println("Verification: Days since last reset: " + minutesInSimulationSincePreviousReset/60/24);
 			
@@ -572,11 +590,12 @@ class HarvesterModel {
 
 	}
 	
+    /*
 	public long getMinutesVisibleMonthly(int arrayIndex, 
 			int yearCheck, 
 			int monthValueCheck) {
 		
-		MonthlyStatistics ms = listMonthlyStatistics.get(arrayIndex);
+Type	MonthlyStatistics ms = listMonthlyStatistics.get(arrayIndex);
 		
 		if (ms.year != yearCheck) {
 			
@@ -595,10 +614,61 @@ class HarvesterModel {
 		return(ms.minutesVisible);
 		
 	}
+    */
+    
+    public enum MonthlyStatisticType {
+
+	MINUTES_VISIBLE, MINUTES_HARVESTER_BETWEEN_STATES
+
+    }
+
+	public long getMinutesMonthlyStatistic(int arrayIndex, 
+					       int yearCheck, 
+					       int monthValueCheck,
+					       MonthlyStatisticType monthlyStatistic
+					       ) {
+		
+		MonthlyStatistics ms = listMonthlyStatistics.get(arrayIndex);
+		
+		if (ms.year != yearCheck) {
+			
+			System.out.println("Warning: saved year " +  ms.year +
+											 " does not match argument " + yearCheck);
+			
+		}
+
+		if (ms.month.getValue() != monthValueCheck) {
+			
+			System.out.println("Warning: saved month " +  ms.month.getValue() +
+											 " does not match argument " +monthValueCheck );
+						
+		}
+		
+		long valueToReturn;
+
+		switch(monthlyStatistic)
+		    {
+		    case MINUTES_VISIBLE:
+			valueToReturn = ms.minutesVisible;
+			break;
+		    case MINUTES_HARVESTER_BETWEEN_STATES:
+			valueToReturn = ms.minutesVisible-ms.minutesFullyDeployed;
+			break;
+		    default:
+			valueToReturn = -1;
+			break;
+		    }
+
+
+		return(valueToReturn);
+		
+	}
 	
 	public class MonthlyStatistics {
 
-		public MonthlyStatistics(LocalDateTime date, long minutesVisibleMonthly) {
+		public MonthlyStatistics(LocalDateTime date,
+					 long minutesVisibleMonthly,
+					 int minutesFullyDeployedMonthly) {
 
 			// To get year and month, subtract a day since incoming day is
 			//  the first sample of new month
@@ -606,11 +676,16 @@ class HarvesterModel {
 			this.year = prevDay.getYear();
 			this.month = prevDay.getMonth();
 			this.minutesVisible = minutesVisibleMonthly;
+			this.minutesFullyDeployed = minutesFullyDeployedMonthly;
+
 			
 		}
-		int year;
-		java.time.Month month;
-		long minutesVisible;
+	    int year;
+	    java.time.Month month;
+	    long minutesVisible;
+	    int minutesFullyDeployed;
+    
+	    
 		
 	}
 }

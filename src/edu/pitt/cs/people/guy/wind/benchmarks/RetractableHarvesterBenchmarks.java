@@ -201,6 +201,24 @@ public class RetractableHarvesterBenchmarks {
 		System.out.println("iUsedAllItsAllocatedVisibilityMinutesPerMonth: " + ws.iUsedAllItsAllocatedVisibilityMinutesPerMonth);
 		System.out.println("Visibility Allocation Minutes:" + ws.iUsedAllItsAllocatedVisibilityMinutesPerMonth);
 
+		// check that transition-limited setting is compatible with Allocated
+		//  Visibility Minutes
+		final int NUMBER_OF_MINUTES_IN_30_DAYS = 30 * 1440;
+		if (bTransitionLimited &&
+		    (ws.iUsedAllItsAllocatedVisibilityMinutesPerMonth > 
+		     NUMBER_OF_MINUTES_IN_30_DAYS)) {
+
+		    System.out.println("Exiting: bTransitionLimited:" +
+				       bTransitionLimited +
+				       " and " +
+		      "AllItsAllocatedVisibilityMinutesPerMonth:" + 
+				       ws.iUsedAllItsAllocatedVisibilityMinutesPerMonth +
+				       " are incompatible settings.");
+		    System.exit(0);
+			
+
+		}
+
 		HarvesterModel hm = new HarvesterModel(ws.iDeploymentTimeMinimumMinutes, ws.iRetractionTimeMinimumMinutes);
 
 
@@ -298,6 +316,7 @@ public class RetractableHarvesterBenchmarks {
 
 		switch(cAlgorithm) {
 		    case 'a':
+			{
 			System.out.println("Aging");
 
 		Aging ag = new Aging(station, hm, ws, bTransitionLimited, lambda);
@@ -310,11 +329,11 @@ public class RetractableHarvesterBenchmarks {
 		System.out.println("Beginning testing mode:");
 		hm.listMonthlyStatistics.clear();
 		ag.testing(bUseWeatherPrediction);
-
+			}
 			break;
 
 		case 'f':
-
+		    {
 		    System.out.println("Fuzzy");
 
 		    Fuzzy5 f5 = new Fuzzy5(station, hm, ws, bTransitionLimited, lambda);
@@ -326,11 +345,11 @@ public class RetractableHarvesterBenchmarks {
 		    System.out.println("Beginning testing mode:");
 		    hm.listMonthlyStatistics.clear();
 		    f5.testing(bUseWeatherPrediction);
-		    		    
+		    }		    
 		    break;
 
 		case 's':
-
+		    {
 		    Static st = new Static(station, hm, ws, bTransitionLimited, lambda);
 		    System.out.println("Transition limited :" + bTransitionLimited);
 		
@@ -339,7 +358,25 @@ public class RetractableHarvesterBenchmarks {
 		    System.out.println("Beginning testing mode:");
 		    hm.listMonthlyStatistics.clear();
 		    st.testing(bUseWeatherPrediction);
+		    }
+		    break;
 
+		case 'd': //demonstration of already trained algorithm
+		    {
+		    Static st = new Static(station, hm, ws, bTransitionLimited, lambda);
+		    System.out.println("Transition limited :" + bTransitionLimited);
+		
+		    System.out.println("bUseWeatherPrediction:" + bUseWeatherPrediction);
+		    
+		    System.out.println("Beginning testing mode: Demonstration");
+		    hm.listMonthlyStatistics.clear();
+
+		    st.testing(bUseWeatherPrediction,
+			       7,
+			       31,
+			       7,
+			       61);
+		    }
 		    break;
 
 		default:

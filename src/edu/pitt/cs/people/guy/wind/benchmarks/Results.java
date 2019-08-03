@@ -2,6 +2,44 @@ package edu.pitt.cs.people.guy.wind.benchmarks;
 
 public class Results {
 	
+
+    // loop through all years
+    private static void printMonthlyStatisticForTestingYears(String station,
+							     HarvesterModel harvester,
+							     String nameOfStatistic,
+						HarvesterModel.MonthlyStatisticType monthlyStatistic){
+
+		int arrayIndex = 1; // ignore first element in array
+		
+		for (int year = 2013; year <= 2014; year++) {
+
+			System.out.print(nameOfStatistic + ":" +
+					 station + ",&," + year + ",&,");		
+			
+			for (int month =1; month <=12; month++) {
+				
+				System.out.print(
+				  harvester.getMinutesMonthlyStatistic(
+								 arrayIndex,
+								 year,
+								 month,
+								 monthlyStatistic) +
+				  ",&,");		
+				arrayIndex++;
+				
+			}
+			
+			System.out.println();
+			
+		}
+
+
+
+
+    }
+
+
+
 	public static void printResults(String station,
 			HarvesterModel harvester,
 			ElectricityPrice ep,
@@ -37,23 +75,15 @@ public class Results {
 				dMarketBalancePercentage + ",&," +
 				dMarketNetNorm);
 		
-		
-		int arrayIndex = 1; // ignore first element in array
-		
-		for (int year = 2013; year <= 2014; year++) {
 
-			System.out.print("monthly visible minutes:" + station + ",&," + year + ",&,");		
-			
-			for (int month =1; month <=12; month++) {
-				
-				System.out.print(harvester.getMinutesVisibleMonthly(arrayIndex, year, month) + ",&,");		
-				arrayIndex++;
-				
-			}
-			
-			System.out.println();
-			
-		}
+		printMonthlyStatisticForTestingYears(station, harvester, "monthly visible minutes",
+		    HarvesterModel.MonthlyStatisticType.MINUTES_VISIBLE);
+
+		printMonthlyStatisticForTestingYears(station, harvester,
+"monthly minutes harvester between states",
+      HarvesterModel.MonthlyStatisticType.MINUTES_HARVESTER_BETWEEN_STATES);
+
+
 		
 	}
 	
@@ -97,28 +127,17 @@ public class Results {
 				dMarketBalancePercentage + ",&," +
 				dMarketNetNorm);
 		
-		
-		int arrayIndex = 1; // ignore first element in array
-		
-		for (int year = 2013; year <= 2014; year++) {
 
-			System.out.print("monthly visible minutes:" + station + ",&," + year + ",&,");		
-			
-			for (int month =1; month <=12; month++) {
-				
-				System.out.print(harvester.getMinutesVisibleMonthly(arrayIndex, year, month) + ",&,");		
-				arrayIndex++;
-				
-			}
-			
-			System.out.println();
-			
-		}
+		printMonthlyStatisticForTestingYears(station, harvester, "monthly visible minutes",
+						     HarvesterModel.MonthlyStatisticType.MINUTES_VISIBLE);
+		
+		printMonthlyStatisticForTestingYears(station, harvester,
+						     "monthly minutes harvester between states",
+						     HarvesterModel.MonthlyStatisticType.MINUTES_HARVESTER_BETWEEN_STATES);
+		
+		
 		
 	}
-	
-
-	
 	
 	
 	
