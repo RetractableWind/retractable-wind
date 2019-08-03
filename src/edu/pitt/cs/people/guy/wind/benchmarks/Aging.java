@@ -81,7 +81,8 @@ public class Aging {
 		System.out.println("LowestWindspeedThatIsWindyKnots for station " +
 				station + " is " + Y_INTERCEPT_START + " knots.");
 		//Y_INTERCEPT_END = Y_INTERCEPT_START + (3*Y_INTERCEPT_STEP);
-		Y_INTERCEPT_END = Y_INTERCEPT_START + (30*Y_INTERCEPT_STEP);
+		//Y_INTERCEPT_END = Y_INTERCEPT_START + (30*Y_INTERCEPT_STEP);
+		Y_INTERCEPT_END = Y_INTERCEPT_START + (7*Y_INTERCEPT_STEP);
 		y_intercept = Y_INTERCEPT_START;
 				
 		initializeArrays();
