@@ -29,7 +29,7 @@ public class Windy {
 	//UPGRADE: move these constants to a common place
 	final String MEMBERSHIP_FUNCTION_NOT_WINDY_FILE_PATTERN_PREFIX = "/training";
 //	final String MEMBERSHIP_FUNCTION_NOT_WINDY_FILE_PATTERN_POSTFIX = "2004-2008inMembershipFunctionNotWindy.out";
-	final String MEMBERSHIP_FUNCTION_NOT_WINDY_FILE_PATTERN_POSTFIX = "2004-2012grMembershipFunctionNotWindy.out";
+	final String MEMBERSHIP_FUNCTION_NOT_WINDY_FILE_PATTERN_POSTFIX = "2004-2012inMembershipFunctionNotWindy.out";
 
 	HarvesterModel harvester;
 
