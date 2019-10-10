@@ -25,8 +25,8 @@ public class Fuzzy5 {
 	final int NUMBER_OF_MONTHS_PLUS_ONE = 13; // index 0 is not used b/c .getMonthValue is 1 to 12
 
 	// final double DEPLOYMENT_THRESHOLD_MV_START = 0.5; // we chose the lamda cut to 0.5
-	// final double DEPLOYMENT_THRESHOLD_MV_STEP = 0.1;
-	// final double DEPLOYMENT_THRESHOLD_MV_END = 0.5;
+        //  final double DEPLOYMENT_THRESHOLD_MV_STEP = 0.1;
+	//  final double DEPLOYMENT_THRESHOLD_MV_END = 0.5;
 	// //final double DEPLOYMENT_THRESHOLD_MV_END = 0.1;
 
 
@@ -34,7 +34,7 @@ public class Fuzzy5 {
     	final double DEPLOYMENT_THRESHOLD_MV_START = 0.1; // we chose the lamda cut to 0.5
     	final double DEPLOYMENT_THRESHOLD_MV_STEP = 0.1;
     final double DEPLOYMENT_THRESHOLD_MV_END = 0.9;
-   // 	//final double DEPLOYMENT_THRESHOLD_MV_END = 0.1;
+   	//final double DEPLOYMENT_THRESHOLD_MV_END = 0.1;
 
 
 	double deployment_threshold_mv;
@@ -191,7 +191,7 @@ public class Fuzzy5 {
 	public void searchForBestRunningAverageMinutesAndYInterceptPair(boolean bUseWeatherPrediction) {
 
 		// Loop that searches for best DEPLOYMENT_THRESHOLD
-		// final int RUNNING_AVERAGE_MINUTES_START = 1;
+  		// final int RUNNING_AVERAGE_MINUTES_START = 1;
 		// final int RUNNING_AVERAGE_MINUTES_END = 121;
 		// final int RUNNING_AVERAGE_MINUTES_STEP = 30;
 		

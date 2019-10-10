@@ -361,6 +361,28 @@ public class RetractableHarvesterBenchmarks {
 		    }
 		    break;
 
+		case 't':
+		    {
+
+			int iVisibilityEventsMonthlyMaximum = Integer.parseInt(args[5]);
+			
+			StaticTransitionsFlexible st = new StaticTransitionsFlexible(station,
+								  hm,
+								  ws,
+								  bTransitionLimited,
+								  lambda,
+					iVisibilityEventsMonthlyMaximum);
+
+		    System.out.println("Transition limited :" + bTransitionLimited);
+		
+		    System.out.println("bUseWeatherPrediction:" + bUseWeatherPrediction);
+		    st.train(bUseWeatherPrediction);
+		    System.out.println("Beginning testing mode:");
+		    hm.listMonthlyStatistics.clear();
+		    st.testing(bUseWeatherPrediction);
+		    }
+		    break;
+
 		case 'd': //demonstration of already trained algorithm
 		    {
 		    Static st = new Static(station, hm, ws, bTransitionLimited, lambda);

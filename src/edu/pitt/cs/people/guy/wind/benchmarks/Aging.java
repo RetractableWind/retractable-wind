@@ -25,7 +25,7 @@ public class Aging {
 	
 	final int Y_INTERCEPT_START;
     //final int Y_INTERCEPT_STEP = 10;
-	final int Y_INTERCEPT_STEP = 1;
+    	final int Y_INTERCEPT_STEP = 1;
 	final int Y_INTERCEPT_END;
 
 	int y_intercept;
@@ -222,10 +222,10 @@ public class Aging {
 		final int RUNNING_AVERAGE_MINUTES_STEP = 5;
 */
 		final int RUNNING_AVERAGE_MINUTES_START = 1; 	
-		/*    	final int  RUNNING_AVERAGE_MINUTES_END = 121;
-		final int RUNNING_AVERAGE_MINUTES_STEP = 30;
-		*/
-    	final int  RUNNING_AVERAGE_MINUTES_END = 361;
+		//final int  RUNNING_AVERAGE_MINUTES_END = 121;
+		//final int RUNNING_AVERAGE_MINUTES_STEP = 30;
+
+		final int  RUNNING_AVERAGE_MINUTES_END = 361;
 		final int RUNNING_AVERAGE_MINUTES_STEP = 1;
 
 		Arrays.fill(energyHarvestedKWHMax, Double.MIN_VALUE);

@@ -39,6 +39,7 @@ class HarvesterModel {
 
 	private long minutesInSimulationSincePreviousReset = 0;
 
+        private int iVisibilityEventsMonthly = 0;
 	
 	public PowerCurve pc;
 		
@@ -276,6 +277,8 @@ class HarvesterModel {
 		
 	}
 	
+    boolean bFullyStowedStatePrevious = true;
+    boolean bFullyStowedStateCurrent = true;
 
 	private void updateStatistics(Workload.WindspeedSample  sample, ElectricityPrice ep) {
 
@@ -283,18 +286,28 @@ class HarvesterModel {
 		
 		minutesInSimulationSincePreviousReset++;
 
+		bFullyStowedStatePrevious = bFullyStowedStateCurrent;
 		
 		if (fDeploymentTimeRemaining == TIME_TO_DEPLOY_MINUTES) {
 			
 			minutesFullyStowedMonthly++;
+			bFullyStowedStateCurrent = true;
 			
 		} else {
 			
 			minutesVisibleMonthly++;
+			bFullyStowedStateCurrent = false;
 						
 		}
 
-		// update fully deployed statistic
+		// update visibility event count if new
+		if (bFullyStowedStatePrevious && !bFullyStowedStateCurrent) {
+
+		    iVisibilityEventsMonthly++;
+
+		}
+
+	// update fully deployed statistic
 		if (fDeploymentTimeRemaining == 0)
 		    {
 			minutesFullyDeployedMonthly++;
@@ -430,6 +443,12 @@ class HarvesterModel {
 		
 	}
 
+        public int getVisibilityEventsMonthly() {
+	
+	    return (iVisibilityEventsMonthly);
+		
+	}
+
 	
 	public void resetMonthlyStatistics(ElectricityPrice ep) {
 		
@@ -461,6 +480,8 @@ class HarvesterModel {
 			dTotalEnergyHarvestedKilowattMinuteMonthPrevious =
 					dTotalEnergyHarvestedKilowattMinuteThisMonth;
 			dTotalEnergyHarvestedKilowattMinuteThisMonth = 0;
+
+			iVisibilityEventsMonthly = 0;
 			
 			ep.resetCountersMonthly();
 						
