@@ -5,8 +5,7 @@ line parameters.)
 "resources". The training and testing files have the name pattern
 "training<STATION>2004-2012in.csv" and
 "testing<STATION>2013-2014in.csv", respectively.  If those files are
-not in the resources directory, copy them from the zip file at http://d-scholarship.pitt.edu/37697/
-having the description "training and testing windspeed for all 30 stations". 
+not in the resources directory, copy them from the zip file "training_and_testing_wind_data_for_all_30_stations.zip" at https://web.archive.org/web/20251213063038/https://d-scholarship.pitt.edu/37697/ or https://zenodo.org/records/20634733. 
 1. javac -version # Check version of javac. The following version works: javac 1.8.0_212 
 2. cd src
 3. javac edu/pitt/cs/people/guy/wind/benchmarks/*.java -d ../classes
