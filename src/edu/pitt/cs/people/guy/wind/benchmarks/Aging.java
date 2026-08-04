@@ -23,9 +23,9 @@ public class Aging {
 	// The following values are set during the training phase
 	final int NUMBER_OF_MONTHS_PLUS_ONE = 13; // index 0 is not used b/c .getMonthValue is 1 to 12
 	
-	final int Y_INTERCEPT_START;
-    //final int Y_INTERCEPT_STEP = 10;
-    	final int Y_INTERCEPT_STEP = 1;
+        final int Y_INTERCEPT_START;
+    //  final int Y_INTERCEPT_STEP = 10;
+    final int Y_INTERCEPT_STEP = 1;
 	final int Y_INTERCEPT_END;
 
 	int y_intercept;
