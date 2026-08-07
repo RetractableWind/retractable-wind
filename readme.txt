@@ -30,11 +30,13 @@ For each of the constants above, where applicable, adjust its value or expressio
     Abstraction: `java -classpath "classes:resources" edu.pitt.cs.people.guy.wind.benchmarks.RetractableHarvesterBenchmarks <station> <lamda> <use_weather_prediction> <limit_transitions> <algorithm> > <log_file>`
     First Example: `java -classpath "classes:resources" edu.pitt.cs.people.guy.wind.benchmarks.RetractableHarvesterBenchmarks KPIT 0.9 false false s > logs/KPIT_OLA_Alpha_Static-_Y_step10_Yplus30knots-_1_step30_121minutes.log`
     Second Example: `java -classpath "classes:resources" edu.pitt.cs.people.guy.wind.benchmarks.RetractableHarvesterBenchmarks ALL 0.9 false false a > logs/ALL_OLA_Alpha_Aging-_Y_step10_Yplus30knots-_1_step30_121minutes.log`
+    (To run all three algorithms, Static, Aging, and Fuzzy, with and without weather prediction, for the same set of operation limitation agreements, consider inspecting and using the following supplied shell scripts: `run_set_alpha.sh`, `run_set_beta.sh`, and `run_set_gamma.sh`.)
 
-7. Extract results from the log file: Ensure that the working director of your shell is the scripts directory.  At your shell prompt, run `python3 extract_results_from_log.py <log_file>` where <log_file> is the name of the log file _not_ including its path.
+7. Extract results from the log file: Ensure that the working directory of your shell is the `scripts` directory.  At your shell prompt, run `python3 extract_results_from_log.py <log_file>` where <log_file> is the name of the log file _not_ including its path.
     Example: `. . . :~/retractable-wind/scripts$ python3 extract_results_from_log.py specialALL_OLA_Beta_Aging-_Y_step1_Yplus7-_1_step1_361minutes.log`
     Check the `../reports` directory for two results files, which have basename of <log_file> and the suffixes `_MQNetNorm.csv` and `_NetNorm.csv`
     Continuing the example: The two reports are named `specialALL_OLA_Beta_Aging-_Y_step1_Yplus7-_1_step1_361minutes_MQNetNorm.csv` and `specialALL_OLA_Beta_Aging-_Y_step1_Yplus7-_1_step1_361minutes_NetNorm.csv`
+    (Consider using the script `extract_from_all_logs.sh` which is in the `scripts` directory or using a similar script to extract from multiple log files.)
 
 8. Analyze the .csv file(s) using R.  To generate one or more box plots, edit the R script `box_plot.R` as needed.  For example, to generate a box plot for the NetNorm scores in `specialALL_OLA_Beta_Aging-_Y_step1_Yplus7-_1_step1_361minutes_NetNorm.csv` use the following assignments: `OLA_SET = "Beta"` and `regular_expression <- paste0("^specialALL_OLA_", OLA_SET, ".*_", METRIC, "\\.csv")`.  Ensure that `boxplot_output_filename` has the name that you want.
     Similarly, edit `mean.R` as needed.
