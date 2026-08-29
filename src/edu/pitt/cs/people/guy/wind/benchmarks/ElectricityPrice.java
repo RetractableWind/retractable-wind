@@ -154,10 +154,13 @@ public class ElectricityPrice {
 				iUsingEnergyWhenGridHasExcessEnergyMinutesThisMonth;
 		int iHurtingMinutes = iUsingEnergyWhenGridNeedsEnergyMinutesThisMonth +
 				iGeneratingEnergyWhenGridHasExcessEnergyMinutesThisMonth;
-		
-		double dBalancePercentage = (iHelpingMinutes - iHurtingMinutes) /
-															  ((double) (iHelpingMinutes + 1));  // Add 1 to avoid dividing by zero
+		/*		
+	     	double dBalancePercentage = (iHelpingMinutes - iHurtingMinutes) /															  ((double) (iHelpingMinutes + 1));  // Add 1 to avoid dividing by zero
+		*/
 
+	     	double dBalancePercentage = (iHelpingMinutes) /															  ((double) (iHelpingMinutes + iHurtingMinutes));
+
+		
 		return(dBalancePercentage);
 		
 	}
@@ -170,9 +173,13 @@ public class ElectricityPrice {
 				iUsingEnergyWhenGridHasExcessEnergyMinutes;
 		int iHurtingMinutes = iUsingEnergyWhenGridNeedsEnergyMinutes +
 				iGeneratingEnergyWhenGridHasExcessEnergyMinutes;
-		
+
+		/*
 		double dBalancePercentage = (iHelpingMinutes - iHurtingMinutes) /
 															  ((double) (iHelpingMinutes +1)); // add 1 to avoid dividing by 0
+		*/
+
+		double dBalancePercentage = (iHelpingMinutes) /															  ((double) (iHelpingMinutes + iHurtingMinutes));
 
 		return(dBalancePercentage);
 		
