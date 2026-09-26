@@ -24,8 +24,8 @@ public class Aging {
 	final int NUMBER_OF_MONTHS_PLUS_ONE = 13; // index 0 is not used b/c .getMonthValue is 1 to 12
 	
         final int Y_INTERCEPT_START;
-    //  final int Y_INTERCEPT_STEP = 10;
-    final int Y_INTERCEPT_STEP = 1;
+        final int Y_INTERCEPT_STEP = 10;
+    //  final int Y_INTERCEPT_STEP = 1;
 	final int Y_INTERCEPT_END;
 
 	int y_intercept;
@@ -80,9 +80,9 @@ public class Aging {
 		Y_INTERCEPT_START = windy.getLowestWindspeedThatIsWindyKnots();
 		System.out.println("LowestWindspeedThatIsWindyKnots for station " +
 				station + " is " + Y_INTERCEPT_START + " knots.");
-		//Y_INTERCEPT_END = Y_INTERCEPT_START + (3*Y_INTERCEPT_STEP);
+		Y_INTERCEPT_END = Y_INTERCEPT_START + (3*Y_INTERCEPT_STEP);
 		//Y_INTERCEPT_END = Y_INTERCEPT_START + (30*Y_INTERCEPT_STEP);
-		Y_INTERCEPT_END = Y_INTERCEPT_START + (7*Y_INTERCEPT_STEP);
+		//Y_INTERCEPT_END = Y_INTERCEPT_START + (7*Y_INTERCEPT_STEP);
 		y_intercept = Y_INTERCEPT_START;
 				
 		initializeArrays();
@@ -222,11 +222,11 @@ public class Aging {
 		final int RUNNING_AVERAGE_MINUTES_STEP = 5;
 */
 		final int RUNNING_AVERAGE_MINUTES_START = 1; 	
-		//final int  RUNNING_AVERAGE_MINUTES_END = 121;
-		//final int RUNNING_AVERAGE_MINUTES_STEP = 30;
+		final int  RUNNING_AVERAGE_MINUTES_END = 121;
+		final int RUNNING_AVERAGE_MINUTES_STEP = 30;
 
-		final int  RUNNING_AVERAGE_MINUTES_END = 361;
-		final int RUNNING_AVERAGE_MINUTES_STEP = 1;
+		//final int  RUNNING_AVERAGE_MINUTES_END = 361;
+		//final int RUNNING_AVERAGE_MINUTES_STEP = 1;
 
 		Arrays.fill(energyHarvestedKWHMax, Double.MIN_VALUE);
 		Arrays.fill(productOfEnergyHarvestedKilowattMinuteAndMarketProportionMax, Double.MIN_VALUE);
